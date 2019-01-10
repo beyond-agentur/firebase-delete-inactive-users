@@ -14,7 +14,7 @@ npm i --save @beyond-agentur-ug/firebase-delete-inactive-users
 ## Example use:
 
 ```ts
-export const removeOldUsers = functions.region( "europe-west1" ).runWith( bigRunTimeOptions ).pubsub.topic( "hourly-tick" ).onPublish( event => {
+export const removeOldUsers = functions.pubsub.topic( "hourly-tick" ).onPublish( event => {
     const inactiveUsers = new InactiveUsers();
     
     return inactiveUsers.delete().then( ( deletedUsers ) => {
@@ -26,7 +26,7 @@ export const removeOldUsers = functions.region( "europe-west1" ).runWith( bigRun
 ### Delete users collection from firestore too
 
 ```ts
-export const removeOldUsers = functions.region( "europe-west1" ).runWith( bigRunTimeOptions ).pubsub.topic( "hourly-tick" ).onPublish( event => {
+export const removeOldUsers = functions.pubsub.topic( "hourly-tick" ).onPublish( event => {
     const inactiveUsers = new InactiveUsers();
     
     return inactiveUsers.delete( [ db.collection( "users" ), db.collection( "posts" ) ] ).then( ( deletedUsers ) => {
