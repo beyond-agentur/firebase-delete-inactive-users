@@ -16,6 +16,15 @@ interface UserAge {
 }
 
 interface Options {
+    userAge?: UserAge;
+
+    maxRuns?: number;
+    concurrentDeletions?: number;
+
+    filter?: Filter;
+}
+
+interface IOptions {
     userAge: UserAge;
 
     maxRuns: number;
@@ -25,11 +34,23 @@ interface Options {
 }
 
 export class InactiveUsers {
+    private readonly options: IOptions = {
+        userAge:             { amount: 90, unit: "days" },
+        maxRuns:             10,
+        concurrentDeletions: 3,
+        filter:              { eMailVerified: true, emptyProvider: false }
+    };
+
     private currentRun: number = 0;
     private userList: Array<UserRecord> = [];
 
-    constructor( private options: Options = { userAge: { amount: 90, unit: "days" }, maxRuns: 10, concurrentDeletions: 3, filter: { eMailVerified: true, emptyProvider: false } } ) {
-
+    constructor( options?: Options ) {
+        if ( options ) {
+            this.options = {
+                ...this.options,
+                ...options
+            };
+        }
     }
 
     private deleteFromFirestore( collections: Array<admin.firestore.CollectionReference>, uid: string ): Promise<boolean> {
@@ -92,7 +113,7 @@ export class InactiveUsers {
                 } );
             }, { concurrency: this.options.concurrentDeletions } ).then( () => {
                 return deletedUsers;
-            });
+            } );
         } );
     }
 }
