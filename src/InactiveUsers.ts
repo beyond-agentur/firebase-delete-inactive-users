@@ -59,8 +59,6 @@ export class InactiveUsers {
 
     private getInactiveUsers( users: Array<UserRecord> = [], nextPageToken?: string ): Promise<Array<UserRecord>> {
         return admin.auth().listUsers( 1000, nextPageToken ).then( ( result: ListUsersResult ) => {
-            console.log( `Found ${result.users.length} users` );
-
             const inactiveUsers = result.users.filter( ( user: UserRecord ) => {
                 let deleteUser = false;
 
@@ -76,8 +74,6 @@ export class InactiveUsers {
 
                 return deleteUser;
             } );
-
-            console.log( `Found ${inactiveUsers.length} inactive users` );
 
             this.userList = this.userList.concat( inactiveUsers );
 
@@ -95,10 +91,11 @@ export class InactiveUsers {
         this.userList = [];
 
         return this.getInactiveUsers().then( ( users: Array<UserRecord> ) => {
+            console.log( `Delete ${users.length} users due to inactivity` );
+
             return Bluebird.map( users, ( user ) => {
                 return this.deleteFromFirestore( withFirestore, user.uid ).then( () => {
                     return admin.auth().deleteUser( user.uid ).then( () => {
-                        console.log( "Deleted user account", user.uid, "because of inactivity" );
                         deletedUsers.push( user.uid );
                     } ).catch( ( error ) => {
                         console.error( "Deletion of inactive user account", user.uid, "failed:", error );

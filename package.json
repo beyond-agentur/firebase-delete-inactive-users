@@ -1,33 +1,39 @@
 {
-    "name": "@beyond-agentur-ug/firebase-delete-inactive-users",
-    "version": "0.0.5",
-    "description": "",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-        "lint": "node_modules/.bin/tslint -p tsconfig.json",
-        "prepare": "node node_modules/typescript/lib/tsc"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://kersten@github.com/beyond-agentur/firebase-delete-inactive-users.git"
-    },
-    "author": "Kersten Burkhardt <kersten@beyond-agentur.com>",
-    "license": "GNU GPLv3",
-    "bugs": {
-        "url": "https://github.com/beyond-agentur/firebase-delete-inactive-users/issues"
-    },
-    "homepage": "https://github.com/beyond-agentur/firebase-delete-inactive-users#readme",
-    "devDependencies": {
-        "@types/bluebird": "^3.5.25",
-        "@types/moment": "^2.13.0",
-        "@types/node": "^8.10.39",
-        "tslint": "^5.12.0",
-        "typescript": "^3.2.2"
-    },
-    "dependencies": {
-        "bluebird": "^3.5.3",
-        "firebase-admin": "^6.4.0",
-        "moment": "^2.23.0"
-    }
+  "name": "@beyond-agentur-ug/firebase-delete-inactive-users",
+  "version": "0.0.6",
+  "description": "",
+  "keywords": [
+    "firebase",
+    "firebase-auth",
+    "auth",
+    "users"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "lint": "node_modules/.bin/tslint -p tsconfig.json",
+    "prepare": "node node_modules/typescript/lib/tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://kersten@github.com/beyond-agentur/firebase-delete-inactive-users.git"
+  },
+  "author": "Kersten Burkhardt <kersten@beyond-agentur.com>",
+  "license": "GNU GPLv3",
+  "bugs": {
+    "url": "https://github.com/beyond-agentur/firebase-delete-inactive-users/issues"
+  },
+  "homepage": "https://github.com/beyond-agentur/firebase-delete-inactive-users#readme",
+  "devDependencies": {
+    "@types/bluebird": "^3.5.25",
+    "@types/moment": "^2.13.0",
+    "@types/node": "^8.10.39",
+    "tslint": "^5.12.0",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "firebase-admin": "^6.4.0",
+    "moment": "^2.23.0"
+  }
 }
