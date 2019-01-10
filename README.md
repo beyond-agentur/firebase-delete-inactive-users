@@ -18,7 +18,7 @@ export const removeOldUsers = functions.pubsub.topic( "hourly-tick" ).onPublish(
     const inactiveUsers = new InactiveUsers();
     
     return inactiveUsers.delete().then( ( deletedUsers ) => {
-        console.log( `Deleted ${deletedUsers.length}` );
+        console.log( `Deleted ${deletedUsers.length} inactive users` );
     } );
 } );
 ```
@@ -30,7 +30,7 @@ export const removeOldUsers = functions.pubsub.topic( "hourly-tick" ).onPublish(
     const inactiveUsers = new InactiveUsers();
     
     return inactiveUsers.delete( [ db.collection( "users" ), db.collection( "posts" ) ] ).then( ( deletedUsers ) => {
-        console.log( `Deleted ${deletedUsers.length}` );
+        console.log( `Deleted ${deletedUsers.length} inactive users` );
     } );
 } );
 ```

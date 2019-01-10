@@ -17,31 +17,23 @@ interface UserAge {
 
 interface Options {
     userAge?: UserAge;
-
-    maxRuns?: number;
     concurrentDeletions?: number;
-
     filter?: Filter;
 }
 
 interface IOptions {
     userAge: UserAge;
-
-    maxRuns: number;
     concurrentDeletions: number;
-
     filter: Filter;
 }
 
 export class InactiveUsers {
     private readonly options: IOptions = {
         userAge:             { amount: 90, unit: "days" },
-        maxRuns:             10,
         concurrentDeletions: 3,
         filter:              { eMailVerified: true, emptyProvider: false }
     };
 
-    private currentRun: number = 0;
     private userList: Array<UserRecord> = [];
 
     constructor( options?: Options ) {
@@ -73,7 +65,7 @@ export class InactiveUsers {
                 let deleteUser = false;
 
                 if ( moment( user.metadata.lastSignInTime ).isBefore( moment().subtract( this.options.userAge.amount, this.options.userAge.unit ) ) ) {
-                    if ( this.options.filter.emptyProvider && !user.emailVerified ) {
+                    if ( this.options.filter.eMailVerified && !user.emailVerified ) {
                         deleteUser = true;
                     }
 
@@ -89,8 +81,7 @@ export class InactiveUsers {
 
             this.userList = this.userList.concat( inactiveUsers );
 
-            if ( result.pageToken && this.currentRun < this.options.maxRuns ) {
-                this.currentRun++;
+            if ( result.pageToken ) {
                 return this.getInactiveUsers( this.userList, result.pageToken );
             }
 
@@ -100,6 +91,8 @@ export class InactiveUsers {
 
     public delete( withFirestore: Array<admin.firestore.CollectionReference> = [] ): Promise<Array<string>> {
         const deletedUsers: Array<string> = [];
+
+        this.userList = [];
 
         return this.getInactiveUsers().then( ( users: Array<UserRecord> ) => {
             return Bluebird.map( users, ( user ) => {
